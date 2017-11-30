@@ -8,7 +8,7 @@
 
 <script src="../javascript/calendar.js" type="text/javascript">
 </script>
-
+<script src="../javascript/jquery-2.1.4.js" type="text/javascript"></script>
 <script type="text/javascript">
 function fncAddProduct(){
 	//Form 유효성 검증
@@ -35,22 +35,22 @@ function fncAddProduct(){
 		return;
 	}
 
-	$("form").attr("method", "POST").attr("action", "/product/addproduct").submit();
+	$("form").attr("method", "POST").attr("action", "/product/addProduct").submit();
 }
 $(function() {
 	$("td.ct_btn01:contains('등록')").bind('click', function() {
-		alert("클릭하였습니다.")
+		fncAddProduct();
 	})
 })
 $(function() {
-	$("td.ct_btn01:contains('취소')").bind('click', function() {
+	$("td.ct_btn01:contains('취소')").click(function() {
 		$("form")[0].reset();
 	})
 })
 </script>
 </head>
 
-<form name="detailForm" method="post" enctype="multipart/form-data">
+<form name="detailForm">
 
 <table width="100%" height="37" border="0" cellspacing="0" cellpadding="0">
 	<tr>
@@ -134,7 +134,7 @@ $(function() {
 		<td width="104" class="ct_write">상품이미지</td>
 		<td width="1" bgcolor="#d6d6d6"></td>
 		<td class="ct_write01">
-			<input name="fileName" class="ct_input_g" style="width: 200px; height: 19px;" type="file" maxlength="13">
+			<input name="fileName" value="${product.fileName}" class="ct_input_g" style="width: 200px; height: 19px;" type="file" maxlength="13">
 		</td>
 	</tr>
 	<tr>

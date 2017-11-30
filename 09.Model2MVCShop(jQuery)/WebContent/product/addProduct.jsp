@@ -95,7 +95,7 @@
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tbody><tr>
 					<td height="26">
-						<img src="../WebContent/images/uploadFiles/${product.fileName}">
+						<img name="fileName" value="${product.fileName}" src="/images/uploadFiles/${product.fileName}">
 					</td>
 				</tr>
 			</tbody></table>

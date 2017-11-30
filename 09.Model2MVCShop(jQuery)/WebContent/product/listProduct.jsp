@@ -11,21 +11,18 @@
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 <script type="text/javascript">
-<!--
+
 	function fncGetUserList(currentPage) {
-		document.getElementById("currentPage").value = currentPage;
-		document.detailForm.submit();
+		$("#currentPage").val(currentPage);
+		$('form').attr("mehtod", "GET").attr("action", "/product/listProduct?menu=${param.menu}&order=${search.order}").submit();
 	}
-	-->
 </script>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
 
 	<div style="width: 98%; margin-left: 10px;">
-		<form name="detailForm" action="/product/listProduct?menu=${param.menu}&order=${search.order}"
-			method="post">
-
+		<form name="detailForm">
 			<table width="100%" height="37" border="0" cellpadding="0"
 				cellspacing="0">
 					<tr>
