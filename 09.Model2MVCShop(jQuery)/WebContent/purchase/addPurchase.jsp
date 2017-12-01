@@ -6,12 +6,12 @@
     --%>
 <html>
 <head>
-<title>Insert title here</title>
+</script>
 </head>
 
 <body>
 
-<form name="updatePurchase" action="/purchase/updatePurchaseView?tranNo=${purchase.tranNo}" method="post">
+<form name="addPurchase">
 
 다음과 같이 구매가 되었습니다.
 <table border=1>

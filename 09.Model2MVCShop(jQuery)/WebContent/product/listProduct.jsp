@@ -12,7 +12,7 @@
 
 <script type="text/javascript">
 
-	function fncGetUserList(currentPage) {
+	function fncGetList(currentPage) {
 		$("#currentPage").val(currentPage);
 		$('form').attr("mehtod", "GET").attr("action", "/product/listProduct?menu=${param.menu}&order=${search.order}").submit();
 	}

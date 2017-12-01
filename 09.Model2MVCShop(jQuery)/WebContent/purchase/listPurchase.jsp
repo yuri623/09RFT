@@ -12,12 +12,24 @@
 <title>구매 목록조회</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-
+<script type="text/javascript" src="../javascript/jquery-2.1.4.js"></script>
 <script type="text/javascript">
-	function fncGetUserList(currentPage) {
-		document.getElementById("currentPage").value = currentPage;
-	   	document.detailForm.submit();	
+	function fncGetList(currentPage) {
+		$("#currentPage").val(currentPage);
+		$('form').attr('mehtod', 'POST').attr('action', "/purchase/listPurchase").submit();
 	}
+	$(function() {
+		$('#getPurchase').bind('click', function() {
+			self.location="/purchase/getPurchase?tranNo=${purchase.tranNo}"
+		})
+	})
+	$(function() {
+		$('#getUser'.bind('click', function() {
+			self.location="/purchase/getPurchase?tranNo=${purchase.tranNo}"
+		}))
+	})
+	<a href="/user/getUser?userId=${purchase.buyer.userId}">
+	<a href="/purchase/updateTranCode?tranNo=${purchase.tranNo}&tranCode=3">물건도착
 </script>
 </head>
 
@@ -25,7 +37,7 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/purchase/listPurchase" method="post">
+<form name="detailForm">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -70,12 +82,12 @@
 	<c:forEach var="purchase" items="${list}">
 		<c:set var="i" value="${ i+1 }" />	
 		<tr class="ct_list_pop">
-			<td align="center">
-				<a href="/purchase/getPurchase?tranNo=${purchase.tranNo}">${ i }</a>
+			<td align="center" id="getPurchase">
+				${ i }
 			</td>
 			<td></td>
-			<td align="left">
-				<a href="/user/getUser?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a>
+			<td align="left" id="getUser">
+				${purchase.buyer.userId}
 			</td>
 			<td></td>
 			<td align="left">${purchase.receiverName}</td>
@@ -87,8 +99,11 @@
 							 <%--}else if(purchase.getTranCode().trim().equals("3")){ --%><c:if test="${purchase.tranCode.trim()==3}">현재 배송완료 상태 입니다.</c:if>
 							 <%--} --%></td>
 			<td></td>
-			<td align="left"><c:if test="${purchase.tranCode.trim()==2}"><a href="/purchase/updateTranCode?tranNo=${purchase.tranNo}&tranCode=3">물건도착</a></c:if>
-							 <c:if test="${purchase.tranCode.trim()!=2}"></c:if>
+			<td align="left">
+			<c:if test="${purchase.tranCode.trim()==2}">
+			물건도착
+			</c:if>
+			<c:if test="${purchase.tranCode.trim()!=2}"></c:if>
 			</td>
 		</tr>
 		<tr>

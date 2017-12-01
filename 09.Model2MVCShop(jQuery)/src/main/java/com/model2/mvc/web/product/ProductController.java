@@ -56,6 +56,7 @@ public class ProductController {
 							 @RequestParam("menu") String menu,
 							 Model model) throws Exception{
 		model.addAttribute("product",productService.getProduct(prodNo));
+		System.out.println("!!!!!!!!product!!!!!!!!!!"+productService.getProduct(prodNo));
 		
 		if(menu.equals("manage")) {
 			return "forward:/product/updateProductView.do";
@@ -71,13 +72,12 @@ public class ProductController {
 			search.setCurrentPage(1);
 		}
 		
-		System.out.println("pagesize : "+pageSize);
-		
 		if(search.getPageSize() == 0) {
 			search.setPageSize(pageSize);
 		}else {
 			pageSize = search.getPageSize();
 		}
+		System.out.println("=====pagesize : "+pageSize);
 		
 		System.out.println("order : "+search.getOrder());
 		if(search.getOrder() == null) {
@@ -86,8 +86,6 @@ public class ProductController {
 		
 		// Business logic ผ๖วเ
 		Map<String , Object> map=productService.getProductList(search);
-		
-		pageUnit = (((Integer)map.get("totalCount")).intValue()%pageSize)+1;
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		

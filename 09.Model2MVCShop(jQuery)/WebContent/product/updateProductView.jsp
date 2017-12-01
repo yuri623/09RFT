@@ -11,15 +11,15 @@
 <script type="text/javascript" src="../javascript/calendar.js">
 </script>
 
+<script type="text/javascript" src="../javascript/jquery-2.1.4.js"></script>
 <script type="text/javascript">
-<!--
-function fncUpdateProduct(){
+function fncAddProduct(){
 	//Form 유효성 검증
- 	var name = document.detailForm.prodName.value;
-	var detail = document.detailForm.prodDetail.value;
-	var manuDate = document.detailForm.manuDate.value;
-	var price = document.detailForm.price.value;
-
+	var name = $('input[name="prodName"]').val()
+	var detail = $('input[name="prodDetail"]').val()
+	var manuDate = $('input[name="manuDate"]').val()
+	var price = $('input[name="price"]').val()
+	
 	if(name == null || name.length<1){
 		alert("상품명은 반드시 입력하여야 합니다.");
 		return;
@@ -35,12 +35,20 @@ function fncUpdateProduct(){
 	if(price == null || price.length<1){
 		alert("가격은 반드시 입력하셔야 합니다.");
 		return;
-	}
-		
-	document.detailForm.action='/product/updateProduct';
-	document.detailForm.submit();
+	}	
+	$('form').attr("method", "POST").attr("action", "/product/updateProduct").submit();
 }
--->
+$(function() {
+	$('td.ct_btn01:contains("수정")').bind('click', function() {
+		fncAddProduct();
+	})
+})
+$(function() {
+	$('td.ct_btn01:contains("취소")').bind('click', function() {
+		history.go(-1);
+	})
+})	
+
 </script>
 </head>
 
@@ -49,6 +57,7 @@ function fncUpdateProduct(){
 <form name="detailForm" method="post">
 
 <input type="hidden" name="prodNo" value="${product.prodNo}">
+<input type="hidden" name="regDate" value="${product.regDate}">
 
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tbody><tr>
@@ -150,7 +159,7 @@ function fncUpdateProduct(){
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						<a href="javascript:fncUpdateProduct();">수정</a>
+						수정
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -160,7 +169,7 @@ function fncUpdateProduct(){
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						<a href="javascript:history.go(-1)">취소</a>
+						취소
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
