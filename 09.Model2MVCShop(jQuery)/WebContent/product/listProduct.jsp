@@ -10,12 +10,46 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
+<script type="text/javascript" src="../javascript/jquery-2.1.4.js"></script>
 <script type="text/javascript">
 
 	function fncGetList(currentPage) {
 		$("#currentPage").val(currentPage);
-		$('form').attr("mehtod", "GET").attr("action", "/product/listProduct?menu=${param.menu}&order=${search.order}").submit();
+		var currentPage = $("#currentPage").val();
+		console.log("@@@currentPage = "+ currentPage);
+		$('form').attr("mehtod", "POST").attr("action", "/product/listProduct?menu=${param.menu}&order=${search.order}").submit();
 	}
+	$(function() {
+		$("td.ct_btn01:contains('검색')").bind('click', function() {
+			fncGetList(1);
+		})
+		
+		$("td.condition:contains('상품명')	").bind('click', function() {
+			alert("눌림??")
+			$("#currentPage").val(1);
+			$('form').attr("mehtod", "POST").attr("/product/listProduct?menu=${param.menu }&order=prod_name").submit();
+		})
+		$("td.condition:contains('신상품순')	").bind('click', function() {
+			alert("눌림??")
+			$("#currentPage").val(1);
+			$('form').attr("mehtod", "POST").attr("/product/listProduct?menu=${param.menu }&order=manufacture_day").submit();
+		})
+		$("td.condition:contains('가격낮은순')	").bind('click', function() {
+			alert("눌림??")
+			$("#currentPage").val(1);
+			$('form').attr("mehtod", "POST").attr("/product/listProduct?menu=${param.menu }&order=price").submit();
+		})
+		
+		$("td.ct_btn01:contains('확인')").bind('click', function() {
+			fncGetList(1);
+		})
+		
+		/* if(${param.menu} != 'search' || ${empty i.proTranCode} ){
+			$("#name").bind('click', function() {
+				self.location='/product/getProduct?prodNo=${i.prodNo}&menu=${param.menu}';
+			})
+		} */
+	})
 </script>
 </head>
 
@@ -92,7 +126,7 @@
 								<img src="/images/ct_btnbg01.gif" width="17" height="23"></td>
 								<td background="/images/ct_btnbg02.gif" class="ct_btn01"
 									style="padding-top: 3px;">
-									<a href="javascript:fncGetUserList('1');">검색</a>
+									검색
 								</td>
 								<td width="14" height="23">
 								<img src="/images/ct_btnbg03.gif" width="14" height="23"></td>
@@ -105,14 +139,19 @@
 			<table width="100%" border="0" cellspacing="0" cellpadding="0"
 				style="margin-top: 10px;">
 				<tr>
-					<td colspan="7">전체 ${resultPage.totalCount}건수, 현재
+					<td colspan="8">전체 ${resultPage.totalCount}건수, 현재
 						${resultPage.currentPage} 페이지
 						</td>
-						<td colspan="4" align="right">
-						<a href="/product/listProduct?menu=${param.menu }&order=prod_name">상품명</a>
-						&nbsp;<a href="/product/listProduct?menu=${param.menu }&order=manufacture_day">신상품순</a>
-						&nbsp;<a href = "/product/listProduct?menu=${param.menu }&order=price">가격낮은순</a>
-						
+						<td align="right" class="condition">
+						상품명
+						</td>
+						<td align="right" class="condition">
+						신상품순
+						</td>
+						<td align="right" class="condition">
+						가격낮은순
+						</td>
+						<td align="right">
 						&nbsp;&nbsp;
 						<select name="pageSize" class="ct_input_g" style="width: 80px">
 							<option value="3" ${search.pageSize == 3? 'selected':''}>3개씩 보기</option>
@@ -127,7 +166,7 @@
 								<img src="/images/ct_btnbg01.gif" width="17" height="23"></td>
 								<td background="/images/ct_btnbg02.gif" class="ct_btn01"
 									style="padding-top: 3px;">
-									<a href="javascript:fncGetUserList('1');">확인</a>
+									확인
 								</td>
 								<td width="14" height="23">
 								<img src="/images/ct_btnbg03.gif" width="14" height="23"></td>
@@ -144,7 +183,7 @@
 					<td class="ct_line02"></td>
 					<td class="ct_list_b">등록일</td>
 					<td class="ct_line02"></td>
-					<td class="ct_list_b">현재상태</td>
+					<td class="ct_list_b" colspan="4">현재상태</td>
 				</tr>
 				<tr>
 					<td colspan="11" bgcolor="808285" height="1"></td>
@@ -155,8 +194,8 @@
 					<tr class="ct_list_pop">
 						<td align="center">${n}</td>
 						<td></td>
-						<td align="left"><c:if
-								test="${param.menu == 'search' && !empty i.proTranCode }">
+						<td align="left" id="name">
+							<c:if test="${param.menu == 'search' && !empty i.proTranCode }">
 								${i.prodName}
 							</c:if> 
 							<c:if test="${param.menu != 'search' || empty i.proTranCode }">
@@ -167,7 +206,7 @@
 						<td></td>
 						<td align="left">${i.manuDate}</td>
 						<td></td>
-						<td align="left">
+						<td align="left" colspan="4">
 							<c:if test="${user.role == 'admin' && !empty i.proTranCode}">
 								<c:if test="${i.proTranCode == '1  '}">구매완료
 									<c:if test="${param.menu == 'manage'}">
