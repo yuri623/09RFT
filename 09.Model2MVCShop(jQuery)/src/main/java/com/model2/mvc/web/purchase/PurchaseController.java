@@ -142,6 +142,9 @@ public class PurchaseController {
 									@RequestParam("tranNo") int tranNo,
 									@RequestParam("tranCode") String tranCode) throws Exception {
 		purchase = purchaseService.getPurchase(tranNo);
+		if(tranCode.trim().equals("2")) {
+			tranCode = "3";
+		}
 		purchase.setTranCode(tranCode);
 		purchaseService.updateTranCode(purchase);
 

@@ -15,21 +15,32 @@
 <script type="text/javascript" src="../javascript/jquery-2.1.4.js"></script>
 <script type="text/javascript">
 	function fncGetList(currentPage) {
+		if(currentPage == null || currentPage == ""){
+			currentPage = 1;
+		}
 		$("#currentPage").val(currentPage);
 		$('form').attr('mehtod', 'POST').attr('action', "/purchase/listPurchase").submit();
 	}
 	$(function() {
-		$('#getPurchase').bind('click', function() {
-			self.location="/purchase/getPurchase?tranNo=${purchase.tranNo}"
+		$('td[name="index"]').bind('click', function() {
+			$('form').attr('method', 'POST').attr('action', '/purchase/getPurchase').submit();
 		})
+
+		$('td[name="userId"]').bind('click', function() {
+			self.location="/user/getUser?userId=${purchase.buyer.userId}"
+		})
+		
+		console.log($("input:hidden[name=tranCode]").val())
+
 	})
 	$(function() {
-		$('#getUser'.bind('click', function() {
-			self.location="/purchase/getPurchase?tranNo=${purchase.tranNo}"
-		}))
+		if($("input:hidden[name=tranCode]").val() == '2  '){
+			$('#dlvyState').append("물건도착").bind('click', function() {
+				$('form').attr('method', 'POST').attr('action', '/purchase/updateTranCode').submit();
+			})
+		}
 	})
-	<a href="/user/getUser?userId=${purchase.buyer.userId}">
-	<a href="/purchase/updateTranCode?tranNo=${purchase.tranNo}&tranCode=3">물건도착
+		
 </script>
 </head>
 
@@ -38,7 +49,6 @@
 <div style="width: 98%; margin-left: 10px;">
 
 <form name="detailForm">
-
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
 		<td width="15" height="37"><img src="/images/ct_ttl_img01.gif"width="15" height="37"></td>
@@ -80,13 +90,14 @@
 	--%>
 	<c:set var="i" value="0" />
 	<c:forEach var="purchase" items="${list}">
+	<input type="hidden" name="tranNo" value="${purchase.tranNo}">
 		<c:set var="i" value="${ i+1 }" />	
 		<tr class="ct_list_pop">
-			<td align="center" id="getPurchase">
+			<td align="center" name="index">
 				${ i }
 			</td>
 			<td></td>
-			<td align="left" id="getUser">
+			<td align="left" name="userId">
 				${purchase.buyer.userId}
 			</td>
 			<td></td>
@@ -94,16 +105,14 @@
 			<td></td>
 			<td align="left">${purchase.receiverPhone}</td>
 			<td></td>
-			<td align="left"><%--if(purchase.getTranCode().trim().equals("1")){ --%><c:if test="${purchase.tranCode.trim()==1}">현재 구매완료 상태 입니다.</c:if>
-							 <%--}else if(purchase.getTranCode().trim().equals("2")){ --%><c:if test="${purchase.tranCode.trim()==2}">현재 배송중 상태 입니다.</c:if>
-							 <%--}else if(purchase.getTranCode().trim().equals("3")){ --%><c:if test="${purchase.tranCode.trim()==3}">현재 배송완료 상태 입니다.</c:if>
-							 <%--} --%></td>
-			<td></td>
 			<td align="left">
-			<c:if test="${purchase.tranCode.trim()==2}">
-			물건도착
-			</c:if>
-			<c:if test="${purchase.tranCode.trim()!=2}"></c:if>
+				<c:if test="${purchase.tranCode.trim()== '1'}">현재 구매완료 상태 입니다.</c:if>
+				<c:if test="${purchase.tranCode.trim()== '2'}">현재 배송중 상태 입니다.</c:if>
+				<c:if test="${purchase.tranCode.trim()== '3'}">현재 배송완료 상태 입니다.</c:if>
+			</td>
+			<td></td>
+			<td align="left" id="dlvyState">
+			<input type="hidden" name="tranCode" value="${purchase.tranCode}">
 			</td>
 		</tr>
 		<tr>

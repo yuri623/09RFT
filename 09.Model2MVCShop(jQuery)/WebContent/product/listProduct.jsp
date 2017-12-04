@@ -14,9 +14,11 @@
 <script type="text/javascript">
 
 	function fncGetList(currentPage) {
+		if(currentPage==null&&currentPage==""){
+			currentPage=1;
+		}
 		$("#currentPage").val(currentPage);
 		var currentPage = $("#currentPage").val();
-		console.log("@@@currentPage = "+ currentPage);
 		$('form').attr("mehtod", "POST").attr("action", "/product/listProduct?menu=${param.menu}&order=${search.order}").submit();
 	}
 	$(function() {
@@ -27,17 +29,17 @@
 		$("td.condition:contains('상품명')	").bind('click', function() {
 			alert("눌림??")
 			$("#currentPage").val(1);
-			$('form').attr("mehtod", "POST").attr("/product/listProduct?menu=${param.menu }&order=prod_name").submit();
+			$('form').attr("mehtod", "POST").attr("/product/listProduct?menu=${param.menu}&order=prod_name").submit();
 		})
 		$("td.condition:contains('신상품순')	").bind('click', function() {
 			alert("눌림??")
 			$("#currentPage").val(1);
-			$('form').attr("mehtod", "POST").attr("/product/listProduct?menu=${param.menu }&order=manufacture_day").submit();
+			$('form').attr("mehtod", "POST").attr("/product/listProduct?menu=${param.menu}&order=manufacture_day").submit();
 		})
 		$("td.condition:contains('가격낮은순')	").bind('click', function() {
 			alert("눌림??")
 			$("#currentPage").val(1);
-			$('form').attr("mehtod", "POST").attr("/product/listProduct?menu=${param.menu }&order=price").submit();
+			$('form').attr("mehtod", "POST").attr("/product/listProduct?menu=${param.menu}&order=price").submit();
 		})
 		
 		$("td.ct_btn01:contains('확인')").bind('click', function() {
